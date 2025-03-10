@@ -90,4 +90,7 @@ class Args:
         self.exemplar_replay_cur_file = ''
         self.exemplar_replay_random = False
 
+        # Contextual labeling 관련
+        self.objectness_thr = 0.3
+
 args = Args()

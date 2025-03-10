@@ -184,7 +184,7 @@ def main(args):
     np.random.seed(seed)
     random.seed(seed)
 
-    model, criterion, postprocessors, exemplar_selection = build_model(args, mode = args.model_type)
+    model, criterion, postprocessors, exemplar_selection, contextual_labeling = build_model(args, mode = args.model_type)
     model.to(device)
 
     model_without_ddp = model
