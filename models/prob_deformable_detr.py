@@ -14,6 +14,8 @@ import torch.nn.functional as F
 from torch import nn
 import math
 
+import numpy as np
+
 from util import box_ops
 from util.misc import (NestedTensor, nested_tensor_from_tensor_list,
                        accuracy, get_world_size, interpolate,
@@ -136,7 +138,6 @@ class DeformableDETR(nn.Module):
         self.num_queries = num_queries
         self.transformer = transformer
         hidden_dim = transformer.d_model
-        
         self.class_embed = nn.Linear(hidden_dim, num_classes)
         self.bbox_embed = MLP(hidden_dim, hidden_dim, 4, 3)
         self.prob_obj_head = ProbObjectnessHead(hidden_dim)
@@ -219,7 +220,6 @@ class DeformableDETR(nn.Module):
         if not isinstance(samples, NestedTensor):
             samples = nested_tensor_from_tensor_list(samples)
         features, pos = self.backbone(samples)
-
         srcs = []
         masks = []
         for l, feat in enumerate(features):
@@ -250,7 +250,7 @@ class DeformableDETR(nn.Module):
         outputs_coords = []
         outputs_objectnesses = []
 
-        for lvl in range(hs.shape[0]):
+        for lvl in range(hs.shape[0]): # 6, head 수 인듯
             if lvl == 0:
                 reference = init_reference
             else:
@@ -534,10 +534,11 @@ class PostProcess(nn.Module):
         topk_values, topk_indexes = torch.topk(prob.view(out_logits.shape[0], -1), self.pred_per_im, dim=1)
         scores = topk_values
         
-        topk_boxes = topk_indexes // out_logits.shape[2]
-        labels = topk_indexes % out_logits.shape[2]
+        topk_boxes = topk_indexes // out_logits.shape[2] # 각 인덱스가 속한 바운딩 박스 인덱스
+        labels = topk_indexes % out_logits.shape[2] #  각 인덱스가 속한 클래스의 인덱스
         boxes = box_ops.box_cxcywh_to_xyxy(out_bbox)
         boxes = torch.gather(boxes, 1, topk_boxes.unsqueeze(-1).repeat(1,1,4))
+        boxes = boxes.clamp(0, 1) # 좌표 범위 밖으로 나가는 것 방지
         
         img_h, img_w = target_sizes.unbind(1)
         scale_fct = torch.stack([img_w, img_h, img_w, img_h], dim=1)
@@ -576,8 +577,10 @@ class ExemplarSelection(nn.Module):
         out_logits, pred_obj = outputs['pred_logits'], outputs['pred_obj']
         out_logits[:, :, self.invalid_cls_logits] = -10e10
 
-        torch.exp(-self.temperature*pred_obj).unsqueeze(-1)
-        logit_dist = torch.exp(-self.temperature*pred_obj).unsqueeze(-1)
+        # out_logits는 클래스 별 확률 값
+        # pred_obj는 obj_head 값
+        # 두 값을 곱해서 확률 값 계산
+        logit_dist = torch.exp(-self.temperature*pred_obj).unsqueeze(-1) # 매칭된 애들만 사용
         prob = logit_dist*out_logits.sigmoid()
 
         image_sorted_scores = {}
@@ -586,21 +589,96 @@ class ExemplarSelection(nn.Module):
         return [image_sorted_scores]
 
     def forward(self, samples, outputs, targets):
+        # matcher는 pred_logits와 pred_boxes만 받아서 사용하기 때문에 나머지 정보는 제거
         outputs_without_aux = {k: v for k, v in outputs.items() if k != 'aux_outputs' and k != 'enc_outputs' and k !='pred_obj'}
-        indices = self.matcher(outputs_without_aux, targets)       
+        indices = self.matcher(outputs_without_aux, targets)
+        print(f'Exemplar: {indices}')
         return self.calc_energy_per_image(outputs, targets, indices)
 
+class ContextualLabeling(nn.Module):
+    def __init__(self, args, num_classes, matcher, invalid_cls_logits, temperature=1.0, pred_per_im=100):
+        super().__init__()
+        self.num_classes = num_classes
+        self.matcher = matcher
+        self.invalid_cls_logits = invalid_cls_logits
+        self.temperature = temperature
+        self.pred_per_im=pred_per_im
+        self.args = args
+        print(f'Initialized Contextual Labeling Module')
+
+    def forward(self, outputs, targets):
+        outputs_without_aux = {k: v for k, v in outputs.items() if k != 'aux_outputs' and k != 'enc_outputs' and k != 'pred_obj'}
+        indices = self.matcher(outputs_without_aux, targets)
+        print(f'Contextual: {indices}')
+        return self.calc_contextual_labels(outputs, targets, indices)
+
+    def calc_contextual_labels(self, outputs, targets, indices):
+        pred_logits, pred_boxes, pred_obj = outputs['pred_logits'], outputs['pred_boxes'], outputs['pred_obj']
+        pred_logits[:,:, self.invalid_cls_logits] = -10e10
+        batch_size = pred_logits.shape[0]
+        results = []
+
+        boxes = box_ops.box_cxcywh_to_xyxy(pred_boxes)
+        boxes = boxes.clamp(0, 1) # 좌표 범위 밖으로 나가는 것 방지
+        
+        img_h, img_w = targets[0]['orig_size'].unsqueeze(1)
+        scale_fct = torch.stack([img_w, img_h, img_w, img_h], dim=1)
+        boxes = boxes * scale_fct[:, None, :]
+
+        obj_prob = torch.exp(-self.temperature*pred_obj).unsqueeze(-1)
+        prob = obj_prob*pred_logits.sigmoid()
+
+        for b in range(batch_size):
+            matched_idx = indices[b]
+
+            # matched 객체 처리 (prob scores 사용)
+            matched_scores = prob[b,matched_idx[0],targets[b]['labels']]
+            matched_labels = targets[b]['labels']
+            matched_boxes = boxes[b][[matched_idx[0]]]
+
+            matched_results = {
+                'boxes': matched_boxes.cpu().numpy(),
+                'labels': matched_labels.cpu().numpy(),
+                'scores': matched_scores.cpu().numpy(),  # prob scores 사용
+                'indices': matched_idx[0].cpu().numpy()
+            }
+
+            # unmatched (unknown) 객체 처리
+            all_idx = set(range(pred_logits.size(1)))
+            unmatched_idx = torch.tensor(list(all_idx - set(matched_idx[0].cpu().tolist())))
+
+            unmatched_labels = np.full((len(unmatched_idx),), 80)
+            unmatched_scores = prob[b,unmatched_idx, unmatched_labels]
+
+            # objectness threshold로 unknown 객체 필터링
+            unknown_mask = (unmatched_scores > self.args.objectness_thr).cpu()  # threshold 값은 실험으로 조정 가능
+            unknown_boxes = boxes[b][unmatched_idx][unknown_mask]
+            unknown_scores = unmatched_scores[unknown_mask]
+            unknown_labels = unmatched_labels[unknown_mask]
+
+            unmatched_results = {
+                'boxes': unknown_boxes.cpu().numpy(),
+                'labels': unknown_labels,
+                'scores': unknown_scores.cpu().numpy(),  # prob scores 사용
+                'indices': unmatched_idx[unknown_mask].cpu().numpy()
+            }
+
+            results.append({
+                'matched': matched_results,
+                'unmatched': unmatched_results
+            })
+        
+        return results
 
 def build(args):
     num_classes = args.num_classes
     invalid_cls_logits = list(range(args.PREV_INTRODUCED_CLS+args.CUR_INTRODUCED_CLS, num_classes-1))
-    print("Invalid class range: " + str(invalid_cls_logits))
+    print("Invalid class range: " + str(invalid_cls_logits)) # 아직 보지 못한 클래스 리스트
     
     device = torch.device(args.device)
     
     backbone = build_backbone(args)
     transformer = build_deforamble_transformer(args)
-    
     model = DeformableDETR(
         backbone,
         transformer,
@@ -638,10 +716,11 @@ def build(args):
     criterion.to(device)
     postprocessors = {'bbox': PostProcess(invalid_cls_logits, temperature=args.obj_temp/args.hidden_dim)}
     exemplar_selection = ExemplarSelection(args, num_classes, matcher, invalid_cls_logits, temperature=args.obj_temp/args.hidden_dim)
+    contextual_labeling = ContextualLabeling(args, num_classes, matcher, invalid_cls_logits, temperature=args.obj_temp/args.hidden_dim)
     if args.masks:
         postprocessors['segm'] = PostProcessSegm()
         if args.dataset_file == "coco_panoptic":
             is_thing_map = {i: i <= 90 for i in range(201)}
             postprocessors["panoptic"] = PostProcessPanoptic(is_thing_map, threshold=0.85)
 
-    return model, criterion, postprocessors, exemplar_selection
+    return model, criterion, postprocessors, exemplar_selection, contextual_labeling
