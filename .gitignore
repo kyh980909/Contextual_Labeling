@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 data/
-models/
 wandb/
 exps/
 test_model/
