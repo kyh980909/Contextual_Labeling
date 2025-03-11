@@ -91,6 +91,6 @@ class Args:
         self.exemplar_replay_random = False
 
         # Contextual labeling 관련
-        self.objectness_thr = 0.3
+        self.objectness_thr = 0.6
 
 args = Args()
