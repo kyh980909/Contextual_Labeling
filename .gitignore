@@ -9,7 +9,7 @@ exps/
 test_model/
 test_img/
 saved_features/
-
+./models/dino_resnet50_pretrain.pth
 # C extensions
 *.so
 
