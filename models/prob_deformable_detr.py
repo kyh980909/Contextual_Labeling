@@ -249,6 +249,7 @@ class DeformableDETR(nn.Module):
         outputs_classes = []
         outputs_coords = []
         outputs_objectnesses = []
+        query_embeddings = hs[-1] # 마지막 head의 query embedding
 
         for lvl in range(hs.shape[0]): # 6, head 수 인듯
             if lvl == 0:
@@ -275,7 +276,8 @@ class DeformableDETR(nn.Module):
         outputs_coord = torch.stack(outputs_coords)
         outputs_objectness = torch.stack(outputs_objectnesses)
 
-        out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1], 'pred_obj':outputs_objectness[-1]} 
+        # query_embedding 추가
+        out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1], 'pred_obj':outputs_objectness[-1], 'query_embeddings': query_embeddings} 
         
         if self.aux_loss:
             out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord, outputs_objectness)
