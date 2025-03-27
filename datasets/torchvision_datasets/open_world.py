@@ -285,7 +285,10 @@ class OWDetection(VisionDataset):
         if 'train' in image_set:
             instances = self.remove_prev_class_and_unk_instances(instances)
         elif 'test' in image_set:
-            instances = self.label_known_class_and_unknown(instances)
+            instances = self.remove_unknown_instances(instances)
+            if len(instances) == 0:
+                # Skip this sample if no GT instances remain after filtering
+                return self.__getitem__((index + 1) % len(self))
         elif 'ft' in image_set:
             instances = self.remove_unknown_instances(instances)
 
