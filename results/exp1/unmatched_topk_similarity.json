@@ -1,422 +1,422 @@
 {
   "Q0": [
     {
-      "matched_idx": 32579,
-      "similarity": 0.9781
-    },
-    {
       "matched_idx": 28398,
-      "similarity": 0.9759
+      "similarity": 0.2766
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9733
+      "matched_idx": 30272,
+      "similarity": 0.2705
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9733
+      "matched_idx": 30271,
+      "similarity": 0.2705
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9733
+      "matched_idx": 37154,
+      "similarity": 0.2705
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9733
+      "matched_idx": 37155,
+      "similarity": 0.2705
     },
     {
-      "matched_idx": 18532,
-      "similarity": 0.9692
+      "matched_idx": 10288,
+      "similarity": 0.2703
     },
     {
-      "matched_idx": 18544,
-      "similarity": 0.9692
+      "matched_idx": 30270,
+      "similarity": 0.27
     },
     {
-      "matched_idx": 18536,
-      "similarity": 0.9692
+      "matched_idx": 37153,
+      "similarity": 0.27
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.9692
+      "matched_idx": 37156,
+      "similarity": 0.2693
+    },
+    {
+      "matched_idx": 30273,
+      "similarity": 0.2693
     }
   ],
   "Q1": [
     {
       "matched_idx": 28398,
-      "similarity": 0.9887
+      "similarity": 0.2808
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9866
+      "matched_idx": 37154,
+      "similarity": 0.2726
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9866
+      "matched_idx": 37155,
+      "similarity": 0.2726
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9866
+      "matched_idx": 30271,
+      "similarity": 0.2726
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9866
+      "matched_idx": 30272,
+      "similarity": 0.2726
     },
     {
-      "matched_idx": 32579,
-      "similarity": 0.9815
+      "matched_idx": 30273,
+      "similarity": 0.2717
     },
     {
-      "matched_idx": 18534,
-      "similarity": 0.978
+      "matched_idx": 37156,
+      "similarity": 0.2717
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.978
+      "matched_idx": 28108,
+      "similarity": 0.2709
     },
     {
-      "matched_idx": 18536,
-      "similarity": 0.978
+      "matched_idx": 37153,
+      "similarity": 0.2643
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.978
+      "matched_idx": 30270,
+      "similarity": 0.2643
     }
   ],
   "Q2": [
     {
       "matched_idx": 28398,
-      "similarity": 0.9933
+      "similarity": 0.272
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9913
+      "matched_idx": 30272,
+      "similarity": 0.2652
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9913
+      "matched_idx": 37155,
+      "similarity": 0.2652
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9913
+      "matched_idx": 30271,
+      "similarity": 0.2652
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9913
+      "matched_idx": 37154,
+      "similarity": 0.2652
     },
     {
-      "matched_idx": 18540,
-      "similarity": 0.9822
+      "matched_idx": 37156,
+      "similarity": 0.2641
     },
     {
-      "matched_idx": 18542,
-      "similarity": 0.9822
+      "matched_idx": 30273,
+      "similarity": 0.2641
     },
     {
-      "matched_idx": 18530,
-      "similarity": 0.9822
+      "matched_idx": 28108,
+      "similarity": 0.2632
     },
     {
-      "matched_idx": 18544,
-      "similarity": 0.9822
+      "matched_idx": 37153,
+      "similarity": 0.2626
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.9822
+      "matched_idx": 30270,
+      "similarity": 0.2626
     }
   ],
   "Q3": [
     {
       "matched_idx": 28398,
-      "similarity": 0.9902
+      "similarity": 0.2669
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9879
+      "matched_idx": 37154,
+      "similarity": 0.2606
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9879
+      "matched_idx": 37155,
+      "similarity": 0.2606
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9879
+      "matched_idx": 30271,
+      "similarity": 0.2606
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9879
+      "matched_idx": 30272,
+      "similarity": 0.2606
     },
     {
-      "matched_idx": 32579,
-      "similarity": 0.98
+      "matched_idx": 30273,
+      "similarity": 0.2595
     },
     {
-      "matched_idx": 18536,
-      "similarity": 0.9791
+      "matched_idx": 37156,
+      "similarity": 0.2595
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.9791
+      "matched_idx": 28108,
+      "similarity": 0.2579
     },
     {
-      "matched_idx": 18532,
-      "similarity": 0.9791
+      "matched_idx": 37153,
+      "similarity": 0.256
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.9791
+      "matched_idx": 30270,
+      "similarity": 0.256
     }
   ],
   "Q4": [
     {
       "matched_idx": 28398,
-      "similarity": 0.9919
+      "similarity": 0.274
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9896
+      "matched_idx": 37154,
+      "similarity": 0.2661
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9896
+      "matched_idx": 37155,
+      "similarity": 0.2661
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9896
+      "matched_idx": 30271,
+      "similarity": 0.2661
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9896
+      "matched_idx": 30272,
+      "similarity": 0.2661
     },
     {
-      "matched_idx": 18534,
-      "similarity": 0.9836
+      "matched_idx": 30273,
+      "similarity": 0.2652
     },
     {
-      "matched_idx": 18542,
-      "similarity": 0.9836
+      "matched_idx": 37156,
+      "similarity": 0.2652
     },
     {
-      "matched_idx": 18532,
-      "similarity": 0.9836
+      "matched_idx": 28108,
+      "similarity": 0.264
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.9836
+      "matched_idx": 37153,
+      "similarity": 0.2579
     },
     {
-      "matched_idx": 18544,
-      "similarity": 0.9836
+      "matched_idx": 30270,
+      "similarity": 0.2579
     }
   ],
   "Q5": [
     {
-      "matched_idx": 32579,
-      "similarity": 0.9931
-    },
-    {
       "matched_idx": 28398,
-      "similarity": 0.952
+      "similarity": 0.2663
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9502
+      "matched_idx": 37154,
+      "similarity": 0.2597
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9502
+      "matched_idx": 37155,
+      "similarity": 0.2597
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9502
+      "matched_idx": 30271,
+      "similarity": 0.2597
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9502
+      "matched_idx": 30272,
+      "similarity": 0.2597
     },
     {
-      "matched_idx": 18534,
-      "similarity": 0.9268
+      "matched_idx": 28108,
+      "similarity": 0.2587
     },
     {
-      "matched_idx": 18540,
-      "similarity": 0.9268
+      "matched_idx": 30273,
+      "similarity": 0.2587
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.9268
+      "matched_idx": 37156,
+      "similarity": 0.2587
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.9268
+      "matched_idx": 37153,
+      "similarity": 0.2547
+    },
+    {
+      "matched_idx": 30270,
+      "similarity": 0.2547
     }
   ],
   "Q6": [
     {
       "matched_idx": 28398,
-      "similarity": 0.9945
+      "similarity": 0.2843
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9926
+      "matched_idx": 28108,
+      "similarity": 0.2788
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9926
+      "matched_idx": 37154,
+      "similarity": 0.2782
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9926
+      "matched_idx": 30272,
+      "similarity": 0.2782
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9926
+      "matched_idx": 30271,
+      "similarity": 0.2782
     },
     {
-      "matched_idx": 18536,
-      "similarity": 0.9803
+      "matched_idx": 37155,
+      "similarity": 0.2782
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.9803
+      "matched_idx": 37156,
+      "similarity": 0.2775
     },
     {
-      "matched_idx": 18532,
-      "similarity": 0.9803
+      "matched_idx": 30273,
+      "similarity": 0.2775
     },
     {
-      "matched_idx": 18544,
-      "similarity": 0.9803
+      "matched_idx": 30918,
+      "similarity": 0.2735
     },
     {
-      "matched_idx": 18542,
-      "similarity": 0.9803
+      "matched_idx": 38176,
+      "similarity": 0.2729
     }
   ],
   "Q7": [
     {
       "matched_idx": 28398,
-      "similarity": 0.992
+      "similarity": 0.269
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9897
+      "matched_idx": 37154,
+      "similarity": 0.2609
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9897
+      "matched_idx": 37155,
+      "similarity": 0.2609
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9897
+      "matched_idx": 30271,
+      "similarity": 0.2609
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9897
+      "matched_idx": 30272,
+      "similarity": 0.2609
     },
     {
-      "matched_idx": 32579,
-      "similarity": 0.983
+      "matched_idx": 30273,
+      "similarity": 0.2599
     },
     {
-      "matched_idx": 18534,
-      "similarity": 0.9796
+      "matched_idx": 37156,
+      "similarity": 0.2599
     },
     {
-      "matched_idx": 18544,
-      "similarity": 0.9796
+      "matched_idx": 28108,
+      "similarity": 0.2591
     },
     {
-      "matched_idx": 18542,
-      "similarity": 0.9796
+      "matched_idx": 37153,
+      "similarity": 0.2536
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.9796
+      "matched_idx": 30270,
+      "similarity": 0.2536
     }
   ],
   "Q8": [
     {
       "matched_idx": 28398,
-      "similarity": 0.9942
+      "similarity": 0.271
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9925
+      "matched_idx": 37154,
+      "similarity": 0.262
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9925
+      "matched_idx": 37155,
+      "similarity": 0.262
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9925
+      "matched_idx": 30271,
+      "similarity": 0.262
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9925
+      "matched_idx": 30272,
+      "similarity": 0.262
     },
     {
-      "matched_idx": 18534,
-      "similarity": 0.9807
+      "matched_idx": 30273,
+      "similarity": 0.261
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.9807
+      "matched_idx": 37156,
+      "similarity": 0.261
     },
     {
-      "matched_idx": 18536,
-      "similarity": 0.9807
+      "matched_idx": 28108,
+      "similarity": 0.2581
     },
     {
-      "matched_idx": 18546,
-      "similarity": 0.9807
+      "matched_idx": 37153,
+      "similarity": 0.2549
     },
     {
-      "matched_idx": 18542,
-      "similarity": 0.9807
+      "matched_idx": 30270,
+      "similarity": 0.2549
     }
   ],
   "Q9": [
     {
-      "matched_idx": 32579,
-      "similarity": 0.9714
-    },
-    {
       "matched_idx": 28398,
-      "similarity": 0.9057
+      "similarity": 0.3008
     },
     {
-      "matched_idx": 28397,
-      "similarity": 0.9045
+      "matched_idx": 28108,
+      "similarity": 0.2918
     },
     {
-      "matched_idx": 28396,
-      "similarity": 0.9045
+      "matched_idx": 30271,
+      "similarity": 0.2911
     },
     {
-      "matched_idx": 28395,
-      "similarity": 0.9045
+      "matched_idx": 30272,
+      "similarity": 0.2911
     },
     {
-      "matched_idx": 28394,
-      "similarity": 0.9045
+      "matched_idx": 37155,
+      "similarity": 0.2911
     },
     {
-      "matched_idx": 18534,
-      "similarity": 0.8684
+      "matched_idx": 37154,
+      "similarity": 0.2911
     },
     {
-      "matched_idx": 18542,
-      "similarity": 0.8684
+      "matched_idx": 30273,
+      "similarity": 0.2906
     },
     {
-      "matched_idx": 18538,
-      "similarity": 0.8684
+      "matched_idx": 37156,
+      "similarity": 0.2906
     },
     {
-      "matched_idx": 18544,
-      "similarity": 0.8684
+      "matched_idx": 30918,
+      "similarity": 0.2826
+    },
+    {
+      "matched_idx": 38176,
+      "similarity": 0.282
     }
   ]
 }
