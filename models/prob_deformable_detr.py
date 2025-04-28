@@ -715,8 +715,8 @@ def build(args):
         model = DETRsegm(model, freeze_detr=(args.frozen_weights is not None))
         
     matcher = build_matcher(args)
-    weight_dict = {'loss_ce': args.cls_loss_coef, 'loss_bbox': args.bbox_loss_coef, 'loss_giou': args.giou_loss_coef, 'loss_obj_ll': args.obj_loss_coef}
-    
+    weight_dict = {'loss_ce': args.cls_loss_coef, 'loss_bbox': args.bbox_loss_coef, 'loss_giou': args.giou_loss_coef, 'loss_obj_ll': args.obj_loss_coef, 'loss_small_box': args.small_box_loss_coef, 'loss_background': args.background_loss_coef}
+
     if args.masks:
         weight_dict["loss_mask"] = args.mask_loss_coef
         weight_dict["loss_dice"] = args.dice_loss_coef

@@ -98,6 +98,8 @@ def get_args_parser():
     parser.add_argument('--bbox_loss_coef', default=5, type=float)
     parser.add_argument('--giou_loss_coef', default=2, type=float)
     parser.add_argument('--focal_alpha', default=0.25, type=float)
+    parser.add_argument('--small_box_loss_coef', default=0.5, type=float)
+    parser.add_argument('--background_loss_coef', default=1.0, type=float)
     
     # dataset parameters
     parser.add_argument('--coco_panoptic_path', type=str)
