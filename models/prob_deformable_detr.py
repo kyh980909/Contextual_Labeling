@@ -322,6 +322,23 @@ class SetCriterion(nn.Module):
         self.invalid_cls_logits = invalid_cls_logits
         self.min_obj=-hidden_dim*math.log(0.9)
 
+    def loss_small_boxes(self, outputs, targets, indices, num_boxes):
+        """ Penalize very small bounding boxes """
+        assert 'pred_boxes' in outputs
+        pred_boxes = outputs['pred_boxes']
+        areas = pred_boxes[..., 2] * pred_boxes[..., 3]  # width * height
+        small_mask = (areas < 0.01)  # assuming normalized boxes; 1% area
+        loss_small = (1 - areas[small_mask] / 0.01).mean() if small_mask.any() else torch.tensor(0., device=pred_boxes.device)
+        return {'loss_small_box': loss_small}
+
+    def loss_background_boxes(self, outputs, targets, indices, num_boxes):
+        """ Penalize boxes with low objectness scores """
+        assert 'pred_obj' in outputs
+        objectness = outputs['pred_obj']
+        threshold = 0.3 # objectness 임계값
+        low_obj_mask = (objectness < threshold)
+        loss_bg = (1 - objectness[low_obj_mask]).mean() if low_obj_mask.any() else torch.tensor(0., device=objectness.device)
+        return {'loss_background': loss_bg}
 
     def loss_labels(self, outputs, targets, indices, num_boxes, log=True):
         """Classification loss (NLL)
@@ -440,7 +457,9 @@ class SetCriterion(nn.Module):
             'cardinality': self.loss_cardinality,
             'boxes': self.loss_boxes,
             'obj_likelihood': self.loss_obj_likelihood,
-            'masks': self.loss_masks
+            'masks': self.loss_masks,
+            'small_boxes': self.loss_small_boxes,
+            'background_boxes': self.loss_background_boxes
         }
         assert loss in loss_map, f'do you really want to compute {loss} loss?'
         return loss_map[loss](outputs, targets, indices, num_boxes, **kwargs)
@@ -709,7 +728,7 @@ def build(args):
         aux_weight_dict.update({k + f'_enc': v for k, v in weight_dict.items()})
         weight_dict.update(aux_weight_dict)
 
-    losses = ['labels', 'boxes', 'cardinality','obj_likelihood']
+    losses = ['labels', 'boxes', 'cardinality', 'obj_likelihood', 'small_boxes', 'background_boxes']
     if args.masks:
         losses += ["masks"]
 
