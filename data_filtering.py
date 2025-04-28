@@ -1,51 +1,36 @@
 import os
-import json
-import random
+import glob
+import xml.etree.ElementTree as ET
 
-def filter_data(json_file, output_file, num_objects):
-    """
-    Filters a COCO-style JSON annotation file to include only images with a specific number of objects.
+# 경로 설정
+img_dir = './data/OWOD/JPEGImages'
+ann_dir = './data/OWOD/Annotations'
+test_list_path = './data/OWOD/ImageSets/TOWOD/owod_all_task_test.txt'
+save_txt_path = './data/MyDataset/filtered_test.txt'
 
-    Args:
-        json_file (str): Path to the input COCO-style JSON annotation file.
-        output_file (str): Path to save the filtered JSON annotation file.
-        num_objects (int): The desired number of objects per image.
-    """
-    with open(json_file, 'r') as f:
-        data = json.load(f)
+# 1. 테스트 ID 리스트 불러오기
+with open(test_list_path, 'r') as f:
+    test_ids = set(line.strip() for line in f if line.strip())
 
-    filtered_images = []
-    filtered_annotations = []
-    image_id_mapping = {}  # To map old image IDs to new ones
-    new_image_id_counter = 1
-    annotation_id_counter = 1
+# 2. 이미지-어노테이션 매칭 후 필터링
+filtered_ids = []
+for xml_path in glob.glob(os.path.join(ann_dir, '*.xml')):
+    base_name = os.path.splitext(os.path.basename(xml_path))[0]
+    if base_name in test_ids:
+        # 객체 수 세기
+        tree = ET.parse(xml_path)
+        root = tree.getroot()
+        object_count = len(root.findall('object'))
 
-    # Create a dictionary to count annotations per image
-    image_annotation_counts = {}
-    for ann in data['annotations']:
-        image_id = ann['image_id']
-        if image_id not in image_annotation_counts:
-            image_annotation_counts[image_id] = 0
-        image_annotation_counts[image_id] += 1
+        # 조건: 객체 수가 N개 이하인 경우만 필터링
+        N = 3  # 원하는 최대 객체 수
+        if object_count <= N:
+            filtered_ids.append(base_name)
 
-    # Filter images and annotations
-    for img in data['images']:
-        image_id = img['id']
-        if image_id in image_annotation_counts and image_annotation_counts[image_id] == num_objects:
-            # Map old image ID to new image ID
-            image_id_mapping[image_id] = new_image_id_counter
-            img['id'] = new_image_id_counter
-            filtered_images.append(img)
-            new_image_id_counter += 1
+# 3. 결과 저장
+os.makedirs(os.path.dirname(save_txt_path), exist_ok=True)
+with open(save_txt_path, 'w') as f:
+    for img_id in sorted(filtered_ids):
+        f.write(f"{img_id}\n")
 
-    for ann in data['annotations']:
-        if ann['image_id'] in image_id_mapping:
-            ann['image_id'] = image_id_mapping[ann['image_id']]
-            ann['id'] = annotation_id_counter
-            filtered_annotations.append(ann)
-            annotation_id_counter += 1
-
-    # Create the filtered JSON structure
-    filtered_data = {
-        'info': data['info'],
-        'licenses': data['licenses'],
+print(f"✅ 필터링 완료: {len(filtered_ids)}개 이미지 저장됨 → {save_txt_path}")

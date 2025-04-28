@@ -66,7 +66,7 @@ class Args:
         self.bbox_thresh = 0.3
         self.nc_loss_coef = 2
         self.train_set = 'owod_t1_train'
-        self.test_set = 'owod_all_task_test'
+        self.test_set = 'filtered_test'
         self.num_classes = 81
         self.nc_epoch = 0
         self.dataset = 'TOWOD'
