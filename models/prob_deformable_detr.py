@@ -327,7 +327,7 @@ class SetCriterion(nn.Module):
         assert 'pred_boxes' in outputs
         pred_boxes = outputs['pred_boxes']
         areas = pred_boxes[..., 2] * pred_boxes[..., 3]  # width * height
-        small_mask = (areas < 0.01)  # assuming normalized boxes; 1% area
+        small_mask = (areas < 0.05)  # assuming normalized boxes; 1% area
         loss_small = (1 - areas[small_mask] / 0.01).mean() if small_mask.any() else torch.tensor(0., device=pred_boxes.device)
         return {'loss_small_box': loss_small}
 
@@ -335,7 +335,7 @@ class SetCriterion(nn.Module):
         """ Penalize boxes with low objectness scores """
         assert 'pred_obj' in outputs
         objectness = outputs['pred_obj']
-        threshold = 0.3 # objectness 임계값
+        threshold = 0.5 # objectness 임계값
         low_obj_mask = (objectness < threshold)
         loss_bg = (1 - objectness[low_obj_mask]).mean() if low_obj_mask.any() else torch.tensor(0., device=objectness.device)
         return {'loss_background': loss_bg}
